@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AMBULERT - Emergency System</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+    color: white;
+}
+
+header {
+    padding: 20px;
+    text-align: center;
+    font-size: 28px;
+    font-weight: bold;
+    background: rgba(0,0,0,0.3);
+}
+
+.container {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    padding: 30px;
+}
+
+.card {
+    background: rgba(255,255,255,0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 20px;
+    margin: 15px;
+    width: 280px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+    transition: 0.3s;
+}
+
+.card:hover {
+    transform: scale(1.05);
+}
+
+.sos-btn {
+    background: red;
+    color: white;
+    padding: 20px;
+    border-radius: 50%;
+    font-size: 22px;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 0 20px red;
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% { box-shadow: 0 0 10px red; }
+    50% { box-shadow: 0 0 30px red; }
+    100% { box-shadow: 0 0 10px red; }
+}
+
+.stop-btn {
+    margin-top: 10px;
+    padding: 10px;
+    background: #00c853;
+    border: none;
+    border-radius: 10px;
+    color: white;
+    cursor: pointer;
+}
+
+.map {
+    height: 150px;
+    background: linear-gradient(#1e3c72, #2a5298);
+    border-radius: 10px;
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.status {
+    margin-top: 10px;
+    font-size: 14px;
+    color: #00ffcc;
+}
+
+.dashboard {
+    background: #111;
+    padding: 10px;
+    border-radius: 10px;
+    margin-top: 10px;
+}
+
+.notification {
+    background: #ff9800;
+    padding: 10px;
+    border-radius: 10px;
+    margin-top: 10px;
+    color: black;
+}
+</style>
+</head>
+
+<body>
+
+<header>🚑 AMBULERT - Emergency Ambulance Tracking</header>
+
+<div class="container">
+
+    <!-- SOS -->
+    <div class="card">
+        <h2>Emergency SOS</h2>
+        <button class="sos-btn" onclick="activateSOS()">SOS</button>
+        <button class="stop-btn" onclick="stopSound()">Stop Alert</button>
+        <p class="status" id="sosStatus">Press in emergency</p>
+    </div>
+
+    <!-- TRACKING -->
+    <div class="card">
+        <h2>Live Tracking</h2>
+        <div class="map">🚑 Moving...</div>
+        <p class="status" id="tracking">ETA: Waiting...</p>
+    </div>
+
+    <!-- DISPATCH -->
+    <div class="card">
+        <h2>Dispatcher Panel</h2>
+        <div class="dashboard" id="dispatch">
+            <p>No ambulance assigned</p>
+        </div>
+    </div>
+
+    <!-- HOSPITAL -->
+    <div class="card">
+        <h2>Hospital Status</h2>
+        <p id="beds">Beds Available: --</p>
+        <p id="doctor">Doctor Status: --</p>
+        <div class="notification" id="hospitalMsg">Waiting...</div>
+    </div>
+
+</div>
+
+<!-- 🔊 SOUND -->
+<audio id="siren" loop>
+    <source src="C:\Users\kotan\Downloads\scottishperson-sound-effect-uk-ambulance-siren-164354.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+
+var siren = document.getElementById("siren");
+
+function activateSOS() {
+
+    // Play sound
+    siren.play();
+
+    // Update UI
+    document.getElementById("sosStatus").innerHTML =
+        "🚨 Ambulance Assigned!";
+
+    document.getElementById("tracking").innerHTML =
+        "ETA: 5 minutes";
+
+    document.getElementById("dispatch").innerHTML =
+        "<p>🚑 Ambulance #12 Assigned</p><p>📍 2 km away</p><p>⚡ On Route</p>";
+
+    document.getElementById("beds").innerHTML =
+        "Beds Available: 5";
+
+    document.getElementById("doctor").innerHTML =
+        "Doctor Ready";
+
+    document.getElementById("hospitalMsg").innerHTML =
+        "Patient arriving soon!";
+}
+
+function stopSound() {
+    siren.pause();
+    siren.currentTime = 0;
+}
+
+</script>
+
+</body>
+</html>
